@@ -10,7 +10,9 @@ from datetime import timedelta
 default_weekends=(SAT,SUN)
 
 
-def networkdays(start_date, end_date, holidays=[], weekends=default_weekends):
+def networkdays(start_date, end_date, holidays=[], weekends=default_weekends, include_start_date=False):
+    if start_date == end_date:
+        return 0
     delta_days = (end_date - start_date).days + 1
     full_weeks, extra_days = divmod(delta_days, 7)
     # num_workdays = how many days/week you work * total # of weeks
@@ -25,6 +27,9 @@ def networkdays(start_date, end_date, holidays=[], weekends=default_weekends):
     for d in holidays:
         if start_date <= d <= end_date:
             num_workdays -= 1
+    if include_start_date:
+        num_workdays -= 1
+        num_workdays = max(num_workdays, 0)
     return num_workdays
 
 def _in_between(a,b,x):
@@ -35,7 +40,7 @@ def cmp(a, b):
 
 def workday(start_date, days=0, holidays=[], weekends=default_weekends):
     if days== 0:
-        return start_date;
+        return start_date
     if days>0 and start_date.weekday() in weekends: #
       while start_date.weekday() in weekends:
           start_date -= timedelta(days=1)
