@@ -91,3 +91,6 @@ def test_networkdays():
     weekends = (0,5,6)
     assert networkdays(date(2015, 8, 1), date(2015, 9, 30), holidays=holidays,
         weekends=weekends) == 34
+
+    # test with excluding start_date from count.
+    assert networkdays(date(2019, 3, 23), date(2019, 3, 23), include_start_date=False) == 0

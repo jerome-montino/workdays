@@ -11,8 +11,6 @@ default_weekends=(SAT,SUN)
 
 
 def networkdays(start_date, end_date, holidays=[], weekends=default_weekends, include_start_date=True):
-    if start_date == end_date:
-        return 0
     delta_days = (end_date - start_date).days + 1
     full_weeks, extra_days = divmod(delta_days, 7)
     # num_workdays = how many days/week you work * total # of weeks
